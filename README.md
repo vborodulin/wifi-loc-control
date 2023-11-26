@@ -101,7 +101,7 @@ Logs examples:
 [2023-11-26 13:44:49] for wifi name 'My_Home_Wi-Fi_5GHz' found alias 'Home'
 [2023-11-26 13:44:49] location switched to 'Home'
 [2023-11-26 13:44:49] finding script for location 'Home'
-[2023-11-26 13:44:49] running script '/Users/vborodulin/.wifi-loc-control/Home.sh'
+[2023-11-26 13:44:49] running script '/Users/vborodulin/.wifi-loc-control/Home'
 ```
 
 ## Contributing
