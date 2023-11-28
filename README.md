@@ -83,6 +83,13 @@ exec 2>&1
 /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate off
 ```
 
+Make scripts executable
+
+```bash
+chmod +x ~/.wifi-loc-control/My_Home_Wi-Fi_5GHz
+chmod +x ~/.wifi-loc-control/Automatic
+```
+
 ## Troubleshooting
 
 Rich logs available at ~/Library/Logs/WiFiLocControl.log.
