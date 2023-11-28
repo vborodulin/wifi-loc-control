@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-LOGS_PATH=$HOME/Library/Logs/WiFiLocControl.log
-exec 2>&1 >> $LOGS_PATH
-
 SCRIPT_NAME=wifi-loc-control.sh
 INSTALL_DIR=/usr/local/bin/
 
@@ -16,6 +13,8 @@ sudo -v
 
 mkdir -p $INSTALL_DIR
 cp -f $SCRIPT_NAME $INSTALL_DIR
+
+# Set exec permissions for script
 chmod +x $INSTALL_DIR/$SCRIPT_NAME
 
 mkdir -p $CONFIG_DIR
@@ -23,5 +22,8 @@ mkdir -p $CONFIG_DIR
 mkdir -p $LUNCH_AGENTS_DIR
 cp -f  $LUNCH_AGENT_CONFIG_NAME $LUNCH_AGENTS_DIR
 
+# Unload and load the launch agent
 launchctl unload $LUNCH_AGENT_CONFIG_PATH > /dev/null 2>&1
 launchctl load -w $LUNCH_AGENT_CONFIG_PATH
+
+echo "WiFiLocControl has been installed and configured successfully."
