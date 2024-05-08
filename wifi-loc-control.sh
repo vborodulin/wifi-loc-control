@@ -19,7 +19,7 @@ log() {
 }
 
 # Get the Wi-Fi network name (SSID)
-wifi_name=$(/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | grep ' SSID:' | sed -nE 's/.*SSID: (.*)/\1/p')
+wifi_name="$(networksetup -getairportnetwork en0 | awk -F ': ' '{print $2}')"
 log "current wifi_name '$wifi_name'"
 
 if [ "$wifi_name" == "" ]; then
