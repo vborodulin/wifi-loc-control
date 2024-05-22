@@ -4,9 +4,7 @@ WiFiLocControl allows you to change your
 macOS [network location](https://support.apple.com/en-us/105129) automatically based on the Wi-Fi
 network (SSID) you are connected to. It is particularly useful for users who use Wi-Fi at work and
 at home, but the network settings (for example, custom DNS configurations) you use at work don't
-allow
-your Mac to automatically connect to the same type of network
-at home.
+allow your Mac to automatically connect to the same type of network at home.
 
 ## Features
 
@@ -31,9 +29,9 @@ at home.
 
 ## Usage
 To set up specific preferences for your Wi-Fi networks, keep it easy: just name your network locations after
-your Wi-Fi names. For example, if you want special settings for "My_Home_Wi-Fi_5GHz," make a
-location called "My_Home_Wi-Fi_5GHz." When you connect to that Wi-Fi, your location will switch
-automatically. If you connect to a Wi-Fi without a special name, it defaults to "Automatic.".
+your Wi-Fi names. For example, if you want special settings for `My_Home_Wi-Fi_5GHz`, make a
+location called `My_Home_Wi-Fi_5GHz`. When you connect to that Wi-Fi, your location will switch
+automatically. If you connect to a Wi-Fi without a special name, it defaults to `Automatic`.
 
 ## Configuration
 
