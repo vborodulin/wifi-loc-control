@@ -19,7 +19,7 @@ log() {
 }
 
 # Get the Wi-Fi network name (SSID)
-wifi_name="$(networksetup -getairportnetwork en0 | awk -F ': ' '{print $2}')"
+wifi_name="$(ipconfig getsummary en0 | awk -F ' SSID : '  '/ SSID : / {print $2}')"
 log "current wifi_name '$wifi_name'"
 
 if [ "$wifi_name" == "" ]; then
