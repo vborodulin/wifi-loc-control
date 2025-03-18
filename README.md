@@ -14,18 +14,41 @@ allow your Mac to automatically connect to the same type of network at home.
 
 ## Installation
 
-1. Clone the repository to your local machine.
-    ```bash
-    git clone https://github.com/vborodulin/wifi-loc-control.git
-    cd ./wifi-loc-control
-    ```
+1. Method 1: Homebrew
+    1. Install Homebrew if you haven't already.
 
-2. Run the bootstrap script to set up the environment.
-    ```bash
-    ./bootstrap.sh    
-    ```
-   It will **ask you for a root password** to install WiFiLocControl to the `/usr/local/bin`
-   directory.
+       ```bash
+       /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+       ```
+
+    2. Install WiFiLocControl.
+
+        ```bash
+        brew install eoleedi/tap/wifi-loc-control
+        ```
+
+    3. Start the service.
+
+        ```bash
+        brew services start wifi-loc-control
+        ```
+
+2. Method 2: Manual
+    1. Clone the repository to your local machine.
+
+        ```bash
+        git clone https://github.com/vborodulin/wifi-loc-control.git
+        cd ./wifi-loc-control
+        ```
+
+    2. Run the bootstrap script to set up the environment.
+
+        ```bash
+        ./bootstrap.sh    
+        ```
+
+        It will **ask you for a root password** to install WiFiLocControl to the `/usr/local/bin`
+        directory.
 
 ## Usage
 To set up specific preferences for your Wi-Fi networks, keep it easy: just name your network locations after
