@@ -12,10 +12,10 @@ CONFIG_DIR=$HOME/.wifi-loc-control
 sudo -v
 
 mkdir -p $INSTALL_DIR
-cp -f $SCRIPT_NAME $INSTALL_DIR
+sudo cp -f $SCRIPT_NAME $INSTALL_DIR
 
 # Set exec permissions for script
-chmod +x $INSTALL_DIR$SCRIPT_NAME
+sudo chmod +x $INSTALL_DIR$SCRIPT_NAME
 
 mkdir -p $CONFIG_DIR
 
