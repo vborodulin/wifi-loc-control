@@ -7,7 +7,7 @@ ALIAS_CONFIG_PATH=$CONFIG_DIR/alias.conf
 
 # redirecting both standard output and standard error to the same location and appending
 # it to a log file under the user's home directory ($HOME).
-exec 2>&1 >> $LOGS_PATH
+exec >> "$LOGS_PATH" 2>&1
 
 # allow time for file descriptors to be set up and log file to be created
 sleep 3
@@ -37,9 +37,9 @@ log "current network location '$current_network_location'"
 
 # Check if an alias is defined for the current Wi-Fi network
 alias_location=$wifi_name
-if [ -f $ALIAS_CONFIG_PATH ]; then
+if [ -f "$ALIAS_CONFIG_PATH" ]; then
   log "reading alias config '$ALIAS_CONFIG_PATH'"
-  alias=$(grep "$wifi_name=" $ALIAS_CONFIG_PATH | sed -nE 's/.*=(.*)/\1/p')
+  alias=$(grep "$wifi_name=" "$ALIAS_CONFIG_PATH" | sed -nE 's/.*=(.*)/\1/p')
 
   if [ "$alias" != "" ]; then
     alias_location=$alias
@@ -55,9 +55,9 @@ exec_location_script() {
 
   log "finding script for location '$location'"
 
-  if [ -f $script_file  ]; then
+  if [ -f "$script_file"  ]; then
     log "running script '$script_file'"
-    chmod +x $script_file
+    chmod +x "$script_file"
     "$script_file"
   else
     log "script for location '$location' not found"
