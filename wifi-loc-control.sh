@@ -19,11 +19,13 @@ log() {
 }
 
 # Get the Wi-Fi network name (SSID)
-wifi_name="$(networksetup -listpreferredwirelessnetworks en0 | sed -n '2 p' | tr -d '\t')"
-log "current wifi_name '$wifi_name'"
+wifi_interface=$(networksetup -listallhardwareports | grep -A1 'Hardware Port: Wi-Fi' | tail -1 | awk '{print $2}')
+wifi_name="$(networksetup -listpreferredwirelessnetworks "$wifi_interface" | sed -n '2 p' | tr -d '\t')"
+wifi_mac_address=$(ifconfig "$wifi_interface" | awk '/ether/{print $2}')
+log "current wifi_name '$wifi_name' and wifi_mac_address '$wifi_mac_address'"
 
-if [ "$wifi_name" == "" ]; then
-  log "wifi_name is empty"
+if [ -z "$wifi_name" ] && [ -z "$wifi_mac_address" ]; then
+  log "wifi_name and wifi_mac_address are empty"
   exit 0
 fi
 
@@ -39,13 +41,13 @@ log "current network location '$current_network_location'"
 alias_location=$wifi_name
 if [ -f "$ALIAS_CONFIG_PATH" ]; then
   log "reading alias config '$ALIAS_CONFIG_PATH'"
-  alias=$(grep "$wifi_name=" "$ALIAS_CONFIG_PATH" | sed -nE 's/.*=(.*)/\1/p')
+  alias=$(grep -v '^\s*#' "$ALIAS_CONFIG_PATH" | grep -F -e "$wifi_name=" -e "$wifi_mac_address=" | sed -nE 's/.*=(.*)/\1/p')
 
   if [ "$alias" != "" ]; then
     alias_location=$alias
-    log "for wifi name '$wifi_name' found alias '$alias_location'"
+    log "for wifi_name '$wifi_name' and wifi_mac_address '$wifi_mac_address' found alias '$alias_location'"
   else
-    log "for wifi name '$wifi_name' alias not found"
+    log "for wifi_name '$wifi_name' and wifi_mac_address '$wifi_mac_address' alias not found"
   fi
 fi
 
