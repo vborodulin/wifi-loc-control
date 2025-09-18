@@ -19,7 +19,7 @@ log() {
 }
 
 # Get the Wi-Fi network name (SSID)
-wifi_name="$(/usr/libexec/PlistBuddy -c 'Print :0:_items:0:spairport_airport_interfaces:0:spairport_current_network_information:_name' /dev/stdin <<< "$(system_profiler SPAirPortDataType -xml)" 2> /dev/null)"
+wifi_name="$(networksetup -listpreferredwirelessnetworks en0 | sed -n '2 p' | tr -d '\t')"
 log "current wifi_name '$wifi_name'"
 
 if [ "$wifi_name" == "" ]; then
