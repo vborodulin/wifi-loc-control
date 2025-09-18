@@ -28,11 +28,11 @@ if [ "$wifi_name" == "" ]; then
 fi
 
 # Get a list of available network locations
-network_locations=$(networksetup -listlocations | xargs)
+network_locations=$(scselect | sed -n 's/^ .*(\(.*\))/\1/p' | xargs)
 log "network locations: $network_locations"
 
 # Get the current network location
-current_network_location=$(networksetup -getcurrentlocation)
+current_network_location=$(scselect | sed -n 's/ \* .*(\(.*\))/\1/p')
 log "current network location '$current_network_location'"
 
 # Check if an alias is defined for the current Wi-Fi network
@@ -74,7 +74,7 @@ fi
 
 if [ "$has_related_network_location" == "false" ]; then
   new_location=$DEFAULT_NETWORK_LOCATION
-  networksetup -switchtolocation "$new_location"
+  scselect "$new_location"
   log "location switched to '$new_location'"
   exec_location_script "$new_location"
   exit 0
@@ -82,7 +82,7 @@ fi
 
 if [ "$alias_location" != "$current_network_location" ]; then
   new_location=$alias_location
-  networksetup -switchtolocation "$new_location" > /dev/null
+  scselect "$new_location"
   log "location switched to '$new_location'"
   exec_location_script "$new_location"
   exit 0
