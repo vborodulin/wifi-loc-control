@@ -17,7 +17,7 @@ allow your Mac to automatically connect to the same type of network at home.
 
 1. Clone the repository to your local machine.
   ```bash
-  git clone https://github.com/ctrlcmdshft/wifi-loc-control.git
+  git clone https://github.com/vborodulin/wifi-loc-control.git
   cd wifi-loc-control
   ```
 
