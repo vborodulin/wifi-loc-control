@@ -14,18 +14,46 @@ allow your Mac to automatically connect to the same type of network at home.
 
 ## Installation
 
+
 1. Clone the repository to your local machine.
-    ```bash
-    git clone https://github.com/vborodulin/wifi-loc-control.git
-    cd ./wifi-loc-control
-    ```
+  ```bash
+  git clone https://github.com/ctrlcmdshft/wifi-loc-control.git
+  cd wifi-loc-control
+  ```
 
 2. Run the bootstrap script to set up the environment.
-    ```bash
-    ./bootstrap.sh    
-    ```
-   It will **ask you for a root password** to install WiFiLocControl to the `/usr/local/bin`
-   directory.
+  ```bash
+  chmod +x bootstrap.sh
+  ./bootstrap.sh
+  ```
+   It will **ask you for a root password** to install WiFiLocControl to the `/usr/local/bin` directory and set up required permissions for macOS 26+.
+
+3. (Optional) Create an alias configuration file to map Wi-Fi names to locations:
+  ```bash
+  mkdir -p ~/.wifi-loc-control
+  nano ~/.wifi-loc-control/alias.conf
+  ```
+  Example contents:
+  ```
+  Unifi=Home
+  Unifi6=Home
+  Firewall=Work
+  Firewall Office=Work
+  ```
+
+4. To check logs for activity:
+  ```bash
+  tail -f ~/Library/Logs/WiFiLocControl.log
+  ```
+
+5. To uninstall, run:
+  ```bash
+  sudo rm /usr/local/bin/wifi-loc-control.sh
+  rm -rf ~/.wifi-loc-control
+  rm ~/Library/LaunchAgents/WiFiLocControl.plist
+  sudo rm /etc/sudoers.d/wifi-loc-control
+  launchctl bootout gui/$(id -u) ~/Library/LaunchAgents/WiFiLocControl.plist
+  ```
 
 ## Usage
 To set up specific preferences for your Wi-Fi networks, keep it easy: just name your network locations after
