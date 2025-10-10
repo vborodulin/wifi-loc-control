@@ -28,20 +28,7 @@ allow your Mac to automatically connect to the same type of network at home.
   ```
    It will **ask you for a root password** to install WiFiLocControl to the `/usr/local/bin` directory and set up required permissions for macOS 26+.
 
-3. (Optional) Create an alias configuration file to map Wi-Fi names to locations:
-  ```bash
-  mkdir -p ~/.wifi-loc-control
-  nano ~/.wifi-loc-control/alias.conf
-  ```
-  Example contents:
-  ```
-  Unifi=Home
-  Unifi6=Home
-  Firewall=Work
-  Firewall Office=Work
-  ```
-
-4. To check logs for activity:
+3. To check logs for activity:
   ```bash
   tail -f ~/Library/Logs/WiFiLocControl.log
   ```
@@ -65,14 +52,20 @@ automatically. If you connect to a Wi-Fi without a special name, it defaults to 
 
 ### Aliasing
 
-If you want to share one network location between different wireless networks (for instance, you
-have a wireless router which broadcasts on 2.4 and 5GHz bands simultaneously), then you can create a
-configuration file `~/.wifi-loc-control/alias.conf` (plain text file with simple key-value pairs, no
-spaces in between):
 
-```text
+To share one network location between different wireless networks (for example, if you have a router broadcasting on multiple bands, or want to group several SSIDs under one profile), create a configuration file `~/.wifi-loc-control/alias.conf` (plain text file with simple key-value pairs):
+
+```bash
+mkdir -p ~/.wifi-loc-control
+nano ~/.wifi-loc-control/alias.conf
+```
+
+Example contents:
+```
 My_Home_Wi-Fi_5GHz=Home
 My_Home_Wi-Fi_2.4GHz=Home
+My_Work_Wi-Fi_5GHz=Work
+My_Home_Wi-Fi_2.4GHz=Work
 ```
 
 Where the keys are the wireless network names and the values are the desired location names.
