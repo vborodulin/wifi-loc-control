@@ -18,12 +18,59 @@ log() {
   echo -e "$current_date $*"
 }
 
+
 # Get the Wi-Fi network name (SSID)
-wifi_name="$(networksetup -listpreferredwirelessnetworks en0 | sed -n '2 p' | tr -d '\t')"
+# Try multiple methods for compatibility with different macOS versions
+get_wifi_name() {
+  # Method 1: Try the new approach for macOS 26+ (Sequoia 15.6+)
+  if command -v ipconfig >/dev/null 2>&1; then
+    # First try without sudo (might work in some cases)
+    wifi_name_new=$(ipconfig getsummary en0 2>/dev/null | awk -F ' SSID : ' '/ SSID : / {print $2}' | tr -d '\n')
+    
+    if [[ -n "$wifi_name_new" && "$wifi_name_new" != "<redacted>" && "$wifi_name_new" != "< redacted >" ]]; then
+      echo "$wifi_name_new"
+      return 0
+    fi
+    
+    # Try with sudo verbose mode for macOS 26+
+    if sudo -n ipconfig setverbose 1 >/dev/null 2>&1; then
+      sudo ipconfig setverbose 1 >/dev/null 2>&1
+      wifi_name_verbose=$(ipconfig getsummary en0 2>/dev/null | awk -F ' SSID : ' '/ SSID : / {print $2}' | tr -d '\n')
+      sudo ipconfig setverbose 0 >/dev/null 2>&1
+      
+      if [[ -n "$wifi_name_verbose" && "$wifi_name_verbose" != "<redacted>" && "$wifi_name_verbose" != "< redacted >" ]]; then
+        echo "$wifi_name_verbose"
+        return 0
+      fi
+    fi
+  fi
+  
+  # Method 2: Try PlistBuddy approach (works on older macOS versions)
+  wifi_name_plist=$(/usr/libexec/PlistBuddy -c 'Print :0:_items:0:spairport_airport_interfaces:0:spairport_current_network_information:_name' /dev/stdin <<< "$(system_profiler SPAirPortDataType -xml)" 2>/dev/null)
+  
+  if [[ -n "$wifi_name_plist" && "$wifi_name_plist" != "<redacted>" && "$wifi_name_plist" != "< redacted >" ]]; then
+    echo "$wifi_name_plist"
+    return 0
+  fi
+  
+  # Method 3: Fallback to original method (for older macOS)
+  wifi_name_fallback=$(networksetup -listpreferredwirelessnetworks en0 | sed -n '2 p' | tr -d '\t')
+  
+  if [[ -n "$wifi_name_fallback" && "$wifi_name_fallback" != "<redacted>" && "$wifi_name_fallback" != "< redacted >" ]]; then
+    echo "$wifi_name_fallback"
+    return 0
+  fi
+  
+  # If all methods fail, return empty
+  echo ""
+}
+
+wifi_name="$(get_wifi_name)"
 log "current wifi_name '$wifi_name'"
 
-if [ "$wifi_name" == "" ]; then
-  log "wifi_name is empty"
+if [ "$wifi_name" == "" ] || [ "$wifi_name" == "<redacted>" ] || [ "$wifi_name" == "< redacted >" ]; then
+  log "wifi_name is empty or redacted - this may be due to macOS 26+ privacy restrictions"
+  log "If you're on macOS 26+, ensure the bootstrap script was run to set up sudo permissions"
   exit 0
 fi
 
