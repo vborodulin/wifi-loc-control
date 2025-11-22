@@ -70,6 +70,16 @@ My_Home_Wi-Fi_2.4GHz=Work
 
 Where the keys are the wireless network names and the values are the desired location names.
 
+You can also use the private and fixed Wi-Fi address that macOS can generate for each Wi-Fi network:
+
+```
+# My_Home_Wi-Fi_5GHz
+d2:1a:f8:5d:bb:ac=Home
+
+# My_Home_Wi-Fi_2.4GHz
+cf:0a:4e:8a:4b:fe=Home
+```
+
 ### Run Scripts on Wi-Fi Network Connection
 
 Sometimes you want to execute a script every time you connect to a specific Wi-Fi network. For
