@@ -90,7 +90,7 @@ steps:
 - Name the scripts after the Wi-Fi network name, ensuring consistency with the corresponding
   network locations.
 
-Example script (`~/.wifi-loc-control/My_Home_Wi-Fi_5GHz`):
+Example script (`~/.wifi-loc-control/Home`):
 
 ```bash
 #!/usr/bin/env bash
@@ -100,6 +100,10 @@ exec 2>&1
 # Enable stealth mode which makes your computer less visible to potential attackers
 /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
 ```
+
+**Note**: Script names should match the **actual location name** used for the connection. This is determined by your configuration:
+- **Without alias**: If you haven't configured `alias.conf`, the location name is the same as the Wi-Fi name (e.g., `My_Home_Wi-Fi_5GHz`).
+- **With alias**: If you have configured `alias.conf` to map Wi-Fi names to location names, use the mapped location name (e.g., `Home`).
 
 To reset changes made by specific location scripts, create corresponding reset script.
 Example reset script (`~/.wifi-loc-control/Automatic`):
@@ -115,7 +119,7 @@ exec 2>&1
 Make scripts executable
 
 ```bash
-chmod +x ~/.wifi-loc-control/My_Home_Wi-Fi_5GHz
+chmod +x ~/.wifi-loc-control/Home
 chmod +x ~/.wifi-loc-control/Automatic
 ```
 
